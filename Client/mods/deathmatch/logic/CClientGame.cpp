@@ -2787,6 +2787,7 @@ void CClientGame::AddBuiltInEvents()
     m_Events.AddEvent("onClientResourceFileDownload", "resource, fileName, fileSize, state", nullptr, false);
     m_Events.AddEvent("onClientTransferBoxProgressChange", "downloadedBytes, downloadTotalBytes", nullptr, false);
     m_Events.AddEvent("onClientTransferBoxVisibilityChange", "isVisible", nullptr, false);
+    m_Events.AddEvent("onClientChatboxLayoutChange", "chatboxLayout", NULL, false);
 
     m_Events.AddEvent("onClientWeaponFire", "ped, x, y, z", NULL, false);
 

@@ -11,6 +11,7 @@
 
 #include "StdInc.h"
 
+
 template <>
 CClientVariables* CSingleton<CClientVariables>::m_pSingleton = NULL;
 
