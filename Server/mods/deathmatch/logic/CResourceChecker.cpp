@@ -659,6 +659,16 @@ long CResourceChecker::FindLuaIdentifier(const char* szLuaSource, long* plOutLen
         {
             if (!bIsMidIdent)
             {
+                long lEndOfName = lPos;
+
+                while (szLuaSource[lEndOfName] && isspace(szLuaSource[lEndOfName]))
+                {
+                    lEndOfName++;
+                }
+
+                if (szLuaSource[lEndOfName] == '=')
+                    continue;
+
                 *plOutLength = lPos - lStartOfName;            // End of identifier
                 return lStartOfName;
             }
