@@ -839,18 +839,18 @@ void CGraphics::DrawLineQueued(float fX1, float fY1, float fX2, float fY2, float
     AddQueueItem(Item, bPostGUI);
 }
 
-void CGraphics::DrawLine3DQueued(const CVector& vecBegin, const CVector& vecEnd, float fWidth, unsigned long ulColor, eRenderStage stage)
+void CGraphics::DrawLine3DQueued(const CVector& vecBegin, const CVector& vecEnd, float fWidth, unsigned long ulColor, eRenderStage stage, eLineJoinMode lineJoinMode)
 {
     if (g_pCore->IsWindowMinimized())
         return;
 
     // Add it to the queue
     if (stage == eRenderStage::POST_GUI && !CCore::GetSingleton().IsMenuVisible())
-        m_pLine3DBatcherPostGUI->AddLine3D(vecBegin, vecEnd, fWidth, ulColor);
+        m_pLine3DBatcherPostGUI->AddLine3D(vecBegin, vecEnd, fWidth, ulColor, lineJoinMode);
     else if (stage == eRenderStage::PRE_FX)
-        m_pLine3DBatcherPreGUI->AddLine3D(vecBegin, vecEnd, fWidth, ulColor);
+        m_pLine3DBatcherPreGUI->AddLine3D(vecBegin, vecEnd, fWidth, ulColor, lineJoinMode);
     else
-        m_pLine3DBatcherPostFX->AddLine3D(vecBegin, vecEnd, fWidth, ulColor);
+        m_pLine3DBatcherPostFX->AddLine3D(vecBegin, vecEnd, fWidth, ulColor, lineJoinMode);
 }
 
 void CGraphics::DrawMaterialLine3DQueued(const CVector& vecBegin, const CVector& vecEnd, float fWidth, unsigned long ulColor, CMaterialItem* pMaterial,

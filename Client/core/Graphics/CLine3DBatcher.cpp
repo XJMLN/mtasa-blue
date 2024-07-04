@@ -104,13 +104,48 @@ void CLine3DBatcher::Flush()
         const CVector vecA1 = vecA - vecShift;
         const CVector vecB1 = vecB - vecShift;
 
-        WRITE_PD_VERTEX(pBuffer, vecA1.fX, vecA1.fY, vecA1.fZ, ulColor);
-        WRITE_PD_VERTEX(pBuffer, vecA2.fX, vecA2.fY, vecA2.fZ, ulColor);
-        WRITE_PD_VERTEX(pBuffer, vecB1.fX, vecB1.fY, vecB1.fZ, ulColor);
+        switch (item.eJoinMode)
+        {
+            case eLineJoinMode::MITER:
+                // Miter join logic (default as before)
+                WRITE_PD_VERTEX(pBuffer, vecA1.fX, vecA1.fY, vecA1.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecA2.fX, vecA2.fY, vecA2.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecB1.fX, vecB1.fY, vecB1.fZ, ulColor);
 
-        WRITE_PD_VERTEX(pBuffer, vecA2.fX, vecA2.fY, vecA2.fZ, ulColor);
-        WRITE_PD_VERTEX(pBuffer, vecB2.fX, vecB2.fY, vecB2.fZ, ulColor);
-        WRITE_PD_VERTEX(pBuffer, vecB1.fX, vecB1.fY, vecB1.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecA2.fX, vecA2.fY, vecA2.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecB2.fX, vecB2.fY, vecB2.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecB1.fX, vecB1.fY, vecB1.fZ, ulColor);
+                break;
+
+            case eLineJoinMode::NONE:
+                // None join logic (lines don't join, draw segments separately)
+                WRITE_PD_VERTEX(pBuffer, vecA1.fX, vecA1.fY, vecA1.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecA2.fX, vecA2.fY, vecA2.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecB1.fX, vecB1.fY, vecB1.fZ, ulColor);
+
+                WRITE_PD_VERTEX(pBuffer, vecA2.fX, vecA2.fY, vecA2.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecB2.fX, vecB2.fY, vecB2.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecB1.fX, vecB1.fY, vecB1.fZ, ulColor);
+                break;
+
+            case eLineJoinMode::BEVEL:
+                // Bevel join logic
+                WRITE_PD_VERTEX(pBuffer, vecA1.fX, vecA1.fY, vecA1.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecA2.fX, vecA2.fY, vecA2.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecB1.fX, vecB1.fY, vecB1.fZ, ulColor);
+
+                WRITE_PD_VERTEX(pBuffer, vecA2.fX, vecA2.fY, vecA2.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecB2.fX, vecB2.fY, vecB2.fZ, ulColor);
+                WRITE_PD_VERTEX(pBuffer, vecB1.fX, vecB1.fY, vecB1.fZ, ulColor);
+                break;
+        }
+        //WRITE_PD_VERTEX(pBuffer, vecA1.fX, vecA1.fY, vecA1.fZ, ulColor);
+        //WRITE_PD_VERTEX(pBuffer, vecA2.fX, vecA2.fY, vecA2.fZ, ulColor);
+        //WRITE_PD_VERTEX(pBuffer, vecB1.fX, vecB1.fY, vecB1.fZ, ulColor);
+
+        //WRITE_PD_VERTEX(pBuffer, vecA2.fX, vecA2.fY, vecA2.fZ, ulColor);
+        //WRITE_PD_VERTEX(pBuffer, vecB2.fX, vecB2.fY, vecB2.fZ, ulColor);
+        //WRITE_PD_VERTEX(pBuffer, vecB1.fX, vecB1.fY, vecB1.fZ, ulColor);
     }
 
     // Set states
@@ -166,13 +201,14 @@ void CLine3DBatcher::Flush()
 // Add a new line3d to the list
 //
 ////////////////////////////////////////////////////////////////
-void CLine3DBatcher::AddLine3D(const CVector& vecFrom, const CVector& vecTo, float fWidth, ulong ulColor)
+void CLine3DBatcher::AddLine3D(const CVector& vecFrom, const CVector& vecTo, float fWidth, ulong ulColor, eLineJoinMode lineJoinMode)
 {
     SLine3DItem item;
     item.vecFrom = vecFrom;
     item.vecTo = vecTo;
     item.fWidth = fWidth * (1 / 75.f);
     item.ulColor = ulColor;
+    item.eJoinMode = lineJoinMode;
 
     m_LineList.push_back(item);
 }

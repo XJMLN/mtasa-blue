@@ -22,7 +22,7 @@ public:
     static void AddClass(lua_State* luaVM);
 
     LUA_DECLARE(DxDrawLine);
-    LUA_DECLARE(DxDrawLine3D);
+    //LUA_DECLARE(DxDrawLine3D);
     LUA_DECLARE(DxDrawMaterialLine3D);
     LUA_DECLARE(DxDrawMaterialSectionLine3D);
     LUA_DECLARE(DxDrawText);
@@ -81,6 +81,9 @@ public:
 
     static bool DxDrawWiredSphere(lua_State* const luaVM, const CVector position, const float radius, const std::optional<SColor> color,
                                   const std::optional<float> lineWidth, const std::optional<unsigned int> iterations);
+
+    static bool DxDrawLine3D(CVector vecBegin, CVector vecEnd, std::optional<SColor> color = 0xFFFFFFFF, std::optional<float> fWidth = 1,
+                             std::optional<eRenderStage> postGUI = eRenderStage::POST_FX, std::optional<eLineJoinMode> lineJoin = eLineJoinMode::MITER);
 
 private:
     static void AddDxMaterialClass(lua_State* luaVM);

@@ -25,7 +25,7 @@ void CLuaDrawingDefs::LoadFunctions()
         {"dxDrawLine", DxDrawLine},
         {"dxDrawMaterialLine3D", DxDrawMaterialLine3D},
         {"dxDrawMaterialSectionLine3D", DxDrawMaterialSectionLine3D},
-        {"dxDrawLine3D", DxDrawLine3D},
+        {"dxDrawLine3D", ArgumentParserWarn<false,DxDrawLine3D>},
         {"dxDrawText", DxDrawText},
         {"dxDrawRectangle", DxDrawRectangle},
         {"dxDrawCircle", DxDrawCircle},
@@ -185,37 +185,14 @@ int CLuaDrawingDefs::DxDrawLine(lua_State* luaVM)
     return 1;
 }
 
-int CLuaDrawingDefs::DxDrawLine3D(lua_State* luaVM)
+bool CLuaDrawingDefs::DxDrawLine3D(CVector vecBegin, CVector vecEnd, std::optional<SColor> color, std::optional<float> fWidth, std::optional<eRenderStage> postGUI,
+                                  std::optional<eLineJoinMode> lineJoin)
 {
-    //  bool dxDrawLine3D ( float startX, float startY, float startZ, float endX, float endY, float endZ, int color[, int width, bool postGUI ] )
-    CVector vecBegin;
-    CVector vecEnd;
-    SColor  color;
-    float   fWidth;
-    eRenderStage renderStage{eRenderStage::POST_FX};
+    //  bool dxDrawLine3D ( float startX, float startY, float startZ, float endX, float endY, float endZ, int color[, int width, bool postGUI, string lineJoin = "miter" ] )
 
-    CScriptArgReader argStream(luaVM);
-    argStream.ReadVector3D(vecBegin);
-    argStream.ReadVector3D(vecEnd);
-    argStream.ReadColor(color, 0xFFFFFFFF);
-    argStream.ReadNumber(fWidth, 1);
-    if (argStream.NextIsBool())
-        renderStage = argStream.ReadBool() ? eRenderStage::POST_GUI : eRenderStage::POST_FX;
-    else
-        argStream.ReadIfNextIsEnumString(renderStage, eRenderStage::POST_FX);
+    g_pCore->GetGraphics()->DrawLine3DQueued(vecBegin, vecEnd, fWidth.value_or(1), color.value_or(0xFFFFFFFF), postGUI.value(), lineJoin.value());
 
-    if (!argStream.HasErrors())
-    {
-        g_pCore->GetGraphics()->DrawLine3DQueued(vecBegin, vecEnd, fWidth, color, renderStage);
-        lua_pushboolean(luaVM, true);
-        return 1;
-    }
-    else
-        m_pScriptDebugging->LogCustom(luaVM, argStream.GetFullErrorMessage());
-
-    // Failed
-    lua_pushboolean(luaVM, false);
-    return 1;
+    return false;
 }
 
 int CLuaDrawingDefs::DxDrawMaterialLine3D(lua_State* luaVM)

@@ -29,6 +29,7 @@ struct SLine3DItem
     CVector vecTo;
     float   fWidth;
     ulong   ulColor;
+    eLineJoinMode eJoinMode;
 };
 
 //
@@ -44,7 +45,7 @@ public:
     void OnDeviceCreate(IDirect3DDevice9* pDevice, float fViewportSizeX, float fViewportSizeY);
     void Flush();
     bool HasItems() { return !m_LineList.empty(); }
-    void AddLine3D(const CVector& vecFrom, const CVector& vecTo, float fWidth, ulong ulColor);
+    void AddLine3D(const CVector& vecFrom, const CVector& vecTo, float fWidth, ulong ulColor, eLineJoinMode lineJoinMode);
 
 protected:
     bool                     m_bPreGUI;

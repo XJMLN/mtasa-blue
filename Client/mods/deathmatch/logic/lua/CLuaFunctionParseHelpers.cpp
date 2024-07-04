@@ -853,6 +853,12 @@ ADD_ENUM(ePools::ENV_MAP_ATOMIC_POOL, "env-map-atomic")
 ADD_ENUM(ePools::SPEC_MAP_MATERIAL_POOL, "spec-map-material")
 IMPLEMENT_ENUM_END("gta-pool")
 
+IMPLEMENT_ENUM_CLASS_BEGIN(eLineJoinMode)
+ADD_ENUM(eLineJoinMode::MITER, "miter")
+ADD_ENUM(eLineJoinMode::NONE, "none")
+ADD_ENUM(eLineJoinMode::BEVEL, "bevel")
+IMPLEMENT_ENUM_CLASS_END("line-join-mode")
+
 IMPLEMENT_ENUM_CLASS_BEGIN(eFxParticleSystems)
 ADD_ENUM(eFxParticleSystems::PRT_BLOOD, "blood")
 ADD_ENUM(eFxParticleSystems::PRT_BOATSPLASH, "boat_splash")
@@ -895,6 +901,8 @@ ADD_ENUM(WEATHER_WATER_FOG, "WaterFog")
 ADD_ENUM(WEATHER_SANDSTORM, "Sandstorm")
 ADD_ENUM(WEATHER_RAINBOW, "Rainbow")
 IMPLEMENT_ENUM_END("world-property")
+
+
 
 //
 // CResource from userdata

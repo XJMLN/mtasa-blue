@@ -85,6 +85,7 @@ DECLARE_ENUM_CLASS(eRenderStage);
 DECLARE_ENUM_CLASS(eFxParticleSystems);
 DECLARE_ENUM(ePools);
 DECLARE_ENUM(eWorldProperty);
+DECLARE_ENUM_CLASS(eLineJoinMode);
 
 class CRemoteCall;
 
@@ -506,6 +507,11 @@ inline SString GetClassTypeName(eWorldProperty*)
 inline SString GetClassTypeName(CClientVectorGraphic*)
 {
     return "svg";
+}
+
+inline SString GetClassTypeName(eLineJoinMode*)
+{
+    return "line-join-mode";
 }
 
 //

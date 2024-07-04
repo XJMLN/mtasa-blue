@@ -135,7 +135,7 @@ public:
     // Queued up drawing funcs
     void DrawLineQueued(float fX1, float fY1, float fX2, float fY2, float fWidth, unsigned long ulColor, bool bPostGUI);
 
-    void DrawLine3DQueued(const CVector& vecBegin, const CVector& vecEnd, float fWidth, unsigned long ulColor, eRenderStage stage = eRenderStage::PRE_FX);
+    void DrawLine3DQueued(const CVector& vecBegin, const CVector& vecEnd, float fWidth, unsigned long ulColor, eRenderStage stage = eRenderStage::PRE_FX, eLineJoinMode = eLineJoinMode::MITER);
 
     void DrawMaterialLine3DQueued(const CVector& vecBegin, const CVector& vecEnd, float fWidth, unsigned long ulColor, CMaterialItem* pMaterial, float fU = 0,
                                   float fV = 0, float fSizeU = 1, float fSizeV = 1, bool bRelativeUV = true, bool bFlipUV = false, bool bUseFaceToward = false,

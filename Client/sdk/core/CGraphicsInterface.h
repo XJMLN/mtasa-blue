@@ -103,6 +103,13 @@ enum class eRenderStage
     POST_GUI
 };
 
+enum class eLineJoinMode
+{
+    MITER,
+    NONE,
+    BEVEL,
+};
+
 class CGraphicsInterface
 {
 public:
@@ -152,7 +159,7 @@ public:
     // Queued up drawing
     virtual void DrawLineQueued(float fX1, float fY1, float fX2, float fY2, float fWidth, unsigned long ulColor, bool bPostGUI) = 0;
 
-    virtual void DrawLine3DQueued(const CVector& vecBegin, const CVector& vecEnd, float fWidth, unsigned long ulColor, eRenderStage stage = eRenderStage::PRE_FX) = 0;
+    virtual void DrawLine3DQueued(const CVector& vecBegin, const CVector& vecEnd, float fWidth, unsigned long ulColor, eRenderStage stage = eRenderStage::PRE_FX, eLineJoinMode lineJoinMode = eLineJoinMode::MITER) = 0;
 
     virtual void DrawMaterialLine3DQueued(const CVector& vecBegin, const CVector& vecEnd, float fWidth, unsigned long ulColor, CMaterialItem* pMaterial,
                                           float fU = 0, float fV = 0, float fSizeU = 1, float fSizeV = 1, bool bRelativeUV = true, bool bFlipUV = false,
